@@ -24,6 +24,10 @@ a {
   transition: color 0.5s;
 }
 
+.navbar{
+  border-bottom: 1px solid #cccccc20 !important;
+}
+
 .navbar a {
   color: #fff;
   transition: color 0.5s;
@@ -99,23 +103,15 @@ label {
 .homepage-banner a{
   text-decoration: none;
   color: #fff;
-  padding: 0 1rem 0 1rem;
-  transition: color 0.3s;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  padding: 0.5rem 1.5rem 0.5rem 1.5rem;
+  transition: color 0.5s, background-color 0.5s, border-color 0.5s;
 }
 
 .homepage-banner a:hover{
-  color: #0DA;
+  color: #0da;
+  background-color: rgba(0, 221, 169, 0.075);
+  border-color: #0da;
 }
 
-.homepage-banner button{
-  background-color: rgba(0, 0, 0, 0) !important;
-  border: 1px solid #fff !important;
-  border-radius: 5px;
-  transition: background-color 0.3s, border-color 0.3s;
-  margin-left: 0.5REM;
-}
-
-.homepage-banner button:hover{
-  background-color: rgba(0, 221, 169, 0.075) !important;
-  border-color: #0da !important;
-}

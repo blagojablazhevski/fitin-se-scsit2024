@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "serverTest": "nodemon server.js"
+    "serverTest": "nodemon server.js",
+    "pull": "git pull origin master"
   },
   "author": "FitIn Group",
   "license": "ISC",
