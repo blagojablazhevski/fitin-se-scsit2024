@@ -3,8 +3,9 @@
 express - npm i express
 ejs = npm i ejs
 
-Dev dependencies:
+##Dev dependencies:
 dotenv - npm i --save-dev dotenv
+
 nodemon - nmp i --save-dev nodemon
 
 ## Members:
