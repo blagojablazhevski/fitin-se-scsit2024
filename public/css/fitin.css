@@ -21,11 +21,12 @@ h3 {
 a {
   color: #ccc;
   text-decoration: underline;
+  transition: color 0.5s;
 }
 
 .navbar a {
   color: #fff;
-  transition: opacity 1s ease;
+  transition: color 0.5s;
   text-decoration: none;
 }
 
@@ -84,4 +85,37 @@ label {
 .card-body p {
   color: #0da;
   font-weight: normal;
+}
+
+.homepage-banner {
+  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), url(https://wallpapertag.com/wallpaper/full/d/3/0/124350-most-popular-gym-background-2716x1810-for-retina.jpg);
+  padding: 1rem;
+}
+
+.homepage-banner h3{
+  padding-bottom: 2rem;
+}
+
+.homepage-banner a{
+  text-decoration: none;
+  color: #fff;
+  padding: 0 1rem 0 1rem;
+  transition: color 0.3s;
+}
+
+.homepage-banner a:hover{
+  color: #0DA;
+}
+
+.homepage-banner button{
+  background-color: rgba(0, 0, 0, 0) !important;
+  border: 1px solid #fff !important;
+  border-radius: 5px;
+  transition: background-color 0.3s, border-color 0.3s;
+  margin-left: 0.5REM;
+}
+
+.homepage-banner button:hover{
+  background-color: rgba(0, 221, 169, 0.075) !important;
+  border-color: #0da !important;
 }
