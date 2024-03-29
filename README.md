@@ -1,6 +1,6 @@
-Project: FitIn
+#Project: FitIn
 
-Dependencies:
+##Dependencies:
 Express - Used for our application server.
 
 EJS - Templating language for our different pages
