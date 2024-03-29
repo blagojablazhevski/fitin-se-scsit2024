@@ -24,4 +24,4 @@ Goce Lazarevski
 
 Mario Gerasimoski 
 
-Nikola Atanasovski 
+Nikola Atanasov
