@@ -8,6 +8,13 @@ dotenv - npm i --save-dev dotenv
 
 nodemon - nmp i --save-dev nodemon
 
+## How to run the test server
+nodemon server.js
+
+or
+
+npm run serverTest
+
 ## Members:
 Borjan Georgievski 
 
