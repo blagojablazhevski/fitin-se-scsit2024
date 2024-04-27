@@ -1,7 +1,9 @@
 # FitIn Project - Software Engineering SCSIT 2023/2024
 ## Dependencies:
 express - npm i express
+
 ejs - npm i ejs
+
 bcrypt - npm i bcrypt
 
 ## Dev dependencies:
