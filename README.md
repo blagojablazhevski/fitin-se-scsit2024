@@ -8,12 +8,12 @@ bcrypt - npm i bcrypt
 
 sqlite3 - npm i sqlite3
 
+passport & local passport - npm i passport, passport-local
+
 ## Dev dependencies:
 dotenv - npm i --save-dev dotenv
 
 nodemon - nmp i --save-dev nodemon
-
-passport & local passport - npm i passport, passport-local
 
 ## How to run the test server
 nodemon server.js
