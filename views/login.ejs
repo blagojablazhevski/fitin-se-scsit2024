@@ -19,7 +19,7 @@
 
     <div class="container">
       <div class="row">
-        <div class="col-md-6 mx-auto mt-3">
+        <div class="col-md-5 mx-auto mt-3">
           <h3 class="text-center">Log In</h3>
           <p class="text-center small">Don't have an account? <a href="/register">Register</a></p>
           <form action="/login" method="POST">
@@ -45,6 +45,11 @@
               />
             </div>
             <p class="text-center small">Forgot your password? <a href="#">Reset password</a></p>
+              <% if (messages.error) { %>
+                <div class="alert alert-danger small text-center" role="alert">
+                  <%= messages.error %>
+                </div>
+              <% } %>
             <div class="d-grid gap-2">
               <button type="submit" class="btn btn-primary">Log In</button>
             </div>

@@ -115,3 +115,8 @@ label {
   border-color: #0da;
 }
 
+.alert-danger{
+  border-color: #FF0000;
+  color: #ccc;
+  background-color: #290909;
+}

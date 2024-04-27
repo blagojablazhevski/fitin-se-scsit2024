@@ -1,69 +1,61 @@
 <!DOCTYPE html>
 <html lang="eng">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Fit In</title>
-    <link rel="stylesheet" href="/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="/css/fitin.css" />
-  </head>
-  <body>
-    <nav class="navbar">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="/">Home</a>
-          <div class="d-flex">
-            <a href="/login">Log In</a>
-          </div>
-        </div>
-      </nav>
 
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6 mx-auto mt-3">
-          <h3 class="text-center">Register</h3>
-          <p class="text-center small">Already have an account? <a href="/login">Log in</a></p>
-          <form action="/register" method="POST">
-            <div class="mb-3">
-              <label for="name" class="form-label small">Name</label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                class="form-control"
-                placeholder="John Doe"
-                required
-              />
-            </div>
-            <div class="mb-3">
-              <label for="email" class="form-label small">Email</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                class="form-control"
-                placeholder="youremail@host.com"
-                required
-              />
-            </div>
-            <div class="mb-3">
-              <label for="password" class="form-label small">Password</label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                class="form-control"
-                required
-              />
-            </div>
-            <div class="d-grid gap-2">
-            <button type="submit" class="btn btn-primary">Fit In</button>
-        </div>
-          </form>
-        </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fit In</title>
+  <link rel="stylesheet" href="/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/css/fitin.css" />
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">Home</a>
+      <div class="d-flex">
+        <a href="/login">Log In</a>
       </div>
     </div>
+  </nav>
 
-    <script src="/node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="/node_modules/bootstrap/dist/js/bootstrap.bu   ndle.min.js"></script>
-  </body>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-5 mx-auto mt-3">
+        <h3 class="text-center">Register</h3>
+        <p class="text-center small">Already have an account? <a href="/login">Log in</a></p>
+        <form action="/register" method="POST">
+          <div class="mb-3">
+            <label for="name" class="form-label small">Name</label>
+            <input type="text" id="name" name="name" class="form-control" placeholder="John Doe" required />
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label small">Email</label>
+            <input type="email" id="email" name="email" class="form-control" placeholder="youremail@host.com"
+              required />
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label small">Password</label>
+            <input type="password" id="password" name="password" class="form-control" required />
+          </div>
+          <div class="col-md-5 mb-3">
+            <label for="height" class="form-label small">Height (cm)</label>
+            <input type="number" step="0.1" id="password" name="height" class="form-control" required />
+          </div>
+          <div class="col-md-5 mb-3">
+            <label for="weight" class="form-label small">Weight (kg)</label>
+            <input type="number" step="0.1" id="password" name="weight" class="form-control" required />
+          </div>
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary">Fit In</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="/node_modules/bootstrap/dist/js/bootstrap.bu   ndle.min.js"></script>
+</body>
+
 </html>
