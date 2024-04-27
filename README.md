@@ -6,6 +6,8 @@ ejs - npm i ejs
 
 bcrypt - npm i bcrypt
 
+sqlite3 - npm i sqlite3
+
 ## Dev dependencies:
 dotenv - npm i --save-dev dotenv
 
