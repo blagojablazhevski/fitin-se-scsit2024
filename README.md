@@ -1,7 +1,14 @@
 # FitIn Project - Software Engineering SCSIT 2023/2024
 ## Dependencies:
-express - npm i express
-ejs = npm i ejs
+express, express session & express flash - npm i express express-session express-flash
+
+ejs - npm i ejs
+
+bcrypt - npm i bcrypt
+
+sqlite3 - npm i sqlite3
+
+passport & local passport - npm i passport, passport-local
 
 ## Dev dependencies:
 dotenv - npm i --save-dev dotenv
@@ -24,4 +31,4 @@ Goce Lazarevski
 
 Mario Gerasimoski 
 
-Nikola Atanasovski 
+Nikola Atanasov
