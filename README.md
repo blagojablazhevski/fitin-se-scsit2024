@@ -1,6 +1,6 @@
 # FitIn Project - Software Engineering SCSIT 2023/2024
 ## Dependencies:
-express - npm i express
+express, express session & express flash - npm i express express-session express-flash
 
 ejs - npm i ejs
 
@@ -12,6 +12,8 @@ sqlite3 - npm i sqlite3
 dotenv - npm i --save-dev dotenv
 
 nodemon - nmp i --save-dev nodemon
+
+passport & local passport - npm i passport, passport-local
 
 ## How to run the test server
 nodemon server.js
