@@ -28,22 +28,47 @@ app.use(methodOverride('_method'))
 
 const initialize = require('./passport-cfg')
 const { Session } = require('inspector')
-initialize(
-    passport, 
-    email => users_prototype.find(user => user.email == email),
-    id => users_prototype.find(user => user.id == id)
-)
 
-const users_prototype = []
+// initialize(
+//     passport, 
+//     // email => users_prototype.find(user => user.email == email),
+//     // id => users_prototype.find(user => user.id == id),
+//     usersDb.get("SELECT * FROM users WHERE email = ?", email),
+//     usersDb.get("SELECT * FROM users WHERE id = ?", id),
+// )
+
+
+//const users_prototype = []
 
 // Databaza za users
 
-const usersDbpath = path.join(__dirname, 'users.db')
+const usersDbpath = path.join(__dirname, 'db/users.db')
 
 const usersDb = new sqlite3.Database(usersDbpath)
 
+initialize(
+    passport, 
+    // async (email) => {
+    //     try {
+    //         const user = await usersDb.get("SELECT * FROM users WHERE email = ?", email);
+    //         return user;
+    //     } catch (err) {
+    //         throw err;
+    //     }
+    // },
+    async (id) => {
+        try {
+            const user = await usersDb.get("SELECT * FROM users WHERE id = ?", id);
+            return user;
+        } catch (err) {
+            throw err;
+        }
+    },
+    usersDb
+);
+
 usersDb.serialize(()=> {
-    usersDb.run("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, email TEXT UNIQUE, password TEXT, height INTEGER, weight REAL)")
+    usersDb.run("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, email TEXT UNIQUE, password TEXT, birthday DATE, height INTEGER, weight REAL)")
 })
 
 // Ruti
@@ -64,31 +89,34 @@ app.get('/register', checkNotAuthenticated, (request, response) =>{
 
 app.post('/register', checkNotAuthenticated, async (request, response) =>{
     try{
+        const existingUser = await new Promise((resolve, reject) => {
+            usersDb.get("SELECT * FROM users WHERE email = ?", request.body.email, (err, row) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(row);
+                }
+            });
+        });
+
+        if(existingUser) {
+            return response.render('register.ejs', { messages: { error: 'Invalid Request: Email already in use.' } });
+        }
+
         const hashed_password = await bcrypt.hash(request.body.password, 10)
 
-        // usersDb.run("INSERT INTO users (name, email, password, height, weight) VALUES (?, ?, ?, ?, ?)",
-        //     request.body.name, request.body.email, hashed_password, request.body.height, request.body.weight,
-        //     function(err){
-        //         if (err){
-        //             console.error(err.message);
-        //             response.redirect('/register');
-        //         } else {
-        //             response.redirect('/login');
-        //         }
-        //     }
-        // )
+        usersDb.run("INSERT INTO users (name, email, password, birthday, height, weight) VALUES (?, ?, ?, ?, ?, ?)",
+            request.body.name, request.body.email, hashed_password, request.body.birthday, request.body.height, request.body.weight,
+            function(err){
+                if (err){
+                    console.error(err.message);
+                    return response.render('register.ejs', { messages: { error: 'Failed to register. Please try again later.' } });
+                } else {
+                    response.redirect('/login');
+                }
+            }
+        )
 
-
-        //Test kod za storing data
-        users_prototype.push({
-            id: Date.now().toString(),
-            name: request.body.name,
-            email: request.body.email,
-            password: hashed_password,
-            height: request.body.height,
-            weight: request.body.weight
-        })
-        response.redirect('/login')
     } catch(error){
         console.log(error)
         response.redirect('/register')
