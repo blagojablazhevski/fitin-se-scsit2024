@@ -171,7 +171,7 @@ app.post('/profile', checkAuthenticated, async (request, response) => {
                 }
             });
         });
-        
+
         const isTrainer = await new Promise((resolve, reject) => {
             fitInDb.get("SELECT * FROM trainers WHERE user_id = ?", userId, (err, row) => {
                 if (err) {
@@ -238,25 +238,5 @@ function checkNotAuthenticated(request, response, next){
     }
     next()
 }
-
-// function insertTestClasses() { // Samo za debugging/testiranje
-//     const classesData = [
-//         { timeslot: '2024-05-17T09:00:00Z', trainer_id: 1 },
-//         { timeslot: '2024-05-18T10:30:00Z', trainer_id: 1 },
-//         { timeslot: '2024-05-19T13:00:00Z', trainer_id: 1 },
-//     ];
-
-//     classesData.forEach(classData => {
-//         fitInDb.run("INSERT INTO classes (timeslot, trainer_id) VALUES (?, ?)", [classData.timeslot, classData.trainer_id], (err) => {
-//             if (err) {
-//                 console.error("Error inserting test class:", err);
-//             } else {
-//                 console.log("Test class inserted successfully");
-//             }
-//         });
-//     });
-// }
-
-//insertTestClasses();
 
 app.listen(3000)
