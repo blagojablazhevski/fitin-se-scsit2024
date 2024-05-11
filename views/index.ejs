@@ -1,81 +1,108 @@
 <!DOCTYPE html>
 <html lang="eng">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Fit In</title>
-    <link rel="stylesheet" href="/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="/css/fitin.css" />
-  </head>
-  <body>
-    <nav class="navbar">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="/">Home</a>
-        <div class="d-flex">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fit In</title>
+  <link rel="stylesheet" href="/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/css/fitin.css" />
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">Home</a>
+      <div class="d-flex">
+        <a href="#">Blog</a>
+        <% if (user) { %>
+          <a href="/schedule">Schedule</a>
+          <a href="/profile">Profile</a>
+          <a href="#" onclick="logout()">Logout</a>
+        <% } else { %>
           <a href="/login">Log In</a>
-        </div>
+        <% } %>
       </div>
-    </nav>
-
-    <div class="homepage-banner">
-      <h3 class="text-center">
-        Are you ready to <span style="color: #0da">Fit In</span>?
-      </h3>
-      <div class="container">
-        <div class="row">
-          <div class="col-md-8 mx-auto text-center">
-            <a href="/login" class="small">Log In</a>
-            <a href="/register" class="small">Register</a>
-          </div>
-        </div>
-      </div>
-
     </div>
+  </nav>
 
+  <div class="homepage-banner">
+    <img src="https://fitingym.com/_next/image?url=%2Fassets%2Fimages%2Flogo_white.png&w=3840&q=75" style="width: 12%; display: block; margin: auto;" class="mt-5 mb-5"> 
+    <h3 class="text-center">
+      Are you ready to <span style="color: #0da">Fit In</span>?
+    </h3>
     <div class="container">
       <div class="row">
-        <div class="col-md-8 mx-auto">
-          <h1 class="text-center">Our Team</h1>
-          <div class="card-group">
-            <div class="card text-center mb-3" style="width: 25rem">
-              <div class="card-body">
-                <h5 class="card-title small">Borjan Georgievski</h5>
-                <p class="card-text small">Scrum Master</p>
-              </div>
-            </div>
+        <div class="col-md-8 mx-auto text-center mb-4">
+          <% if (user) { %>
+            <a href="/schedule  " class="small">Schedule</a>
+          <% } else { %>
+            <a href="/login" class="small">Log In</a>
+            <a href="/register" class="small">Register</a>
+          <% } %>
+        </div>
+      </div>
+    </div>
 
-            <div class="card text-center mb-3" style="width: 25rem">
-              <div class="card-body">
-                <h5 class="card-title small">Blagoja Blazhevski</h5>
-                <p class="card-text small">Software Lead</p>
-              </div>
-            </div>
+  </div>
 
-            <div class="card text-center mb-3" style="width: 25rem">
-              <div class="card-body">
-                <h5 class="card-title small">Goce Lazarevski</h5>
-                <p class="card-text small">Back-end Engineer</p>
-              </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 mt-5 mx-auto">
+        <h1 class="text-center" style="text-align: center;">What is Fit In?</h1>
+        <p class="mt-5 mb-5">We are a training facility that offers group training with a trainer. We have 5 different programs that provide different stimulus to the clients, focusing on different capabilities that bring out different results. You can check our schedule, it’s filled with workouts throughout the whole day. Register, and don’t hesitate to visit us for a free trial.</p>
+      </div>
+      <div class="col-md-8 mx-auto">
+        <h1 class="text-center mb-5">The team behind our website</h1>
+        <div class="card-group">
+          <div class="card text-center mb-3" style="width: 25rem">
+            <div class="card-body">
+              <h5 class="card-title small">Borjan Georgievski</h5>
+              <p class="card-text small">Scrum Master</p>
             </div>
+          </div>
 
-            <div class="card text-center mb-3" style="width: 25rem">
-              <div class="card-body">
-                <h5 class="card-title small">Mario Gerasimoski</h5>
-                <p class="card-text small">Testing & Delivery</p>
-              </div>
+          <div class="card text-center mb-3" style="width: 25rem">
+            <div class="card-body">
+              <h5 class="card-title small">Blagoja Blazhevski</h5>
+              <p class="card-text small">Software Lead</p>
             </div>
+          </div>
 
-            <div class="card text-center mb-3" style="width: 25rem">
-              <div class="card-body">
-                <h5 class="card-title small">Nikola Atanasov</h5>
-                <p class="card-text small">UI/UX Designer</p>
-              </div>
+          <div class="card text-center mb-3" style="width: 25rem">
+            <div class="card-body">
+              <h5 class="card-title small">Goce Lazarevski</h5>
+              <p class="card-text small">Back-end Engineer</p>
+            </div>
+          </div>
+
+          <div class="card text-center mb-3" style="width: 25rem">
+            <div class="card-body">
+              <h5 class="card-title small">Mario Gerasimoski</h5>
+              <p class="card-text small">Testing & Delivery</p>
+            </div>
+          </div>
+
+          <div class="card text-center mb-3" style="width: 25rem">
+            <div class="card-body">
+              <h5 class="card-title small">Nikola Atanasov</h5>
+              <p class="card-text small">UI/UX Designer</p>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <script src="/public/js/bootstrap.min.js"></script>
-  </body>
+  <form id="logoutForm" action="/logout?_method=DELETE" method="POST" style="display: none;">
+    <button type="submit">Log Out</button>
+  </form>
+  <script>
+    function logout() {
+        document.getElementById('logoutForm').submit();
+    }
+  </script>
+  <script src="/public/js/bootstrap.min.js"></script>
+</body>
+
 </html>

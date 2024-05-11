@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="eng">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fit In</title>
+  <link rel="stylesheet" href="/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/css/fitin.css" />
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">Home</a>
+      <div class="d-flex">
+        <a href="#">Blog</a>
+        <% if (user) { %>
+          <a href="/schedule">Schedule</a>
+          <a href="/profile">Profile</a>
+          <a href="#" onclick="logout()">Logout</a>
+        <% } else { %>
+          <a href="/login">Log In</a>
+        <% } %>
+      </div>
+    </div>
+  </nav>
+
+  <div class="class-schedule container text-center mt-5">
+    <% const classesByDay = {}; %>
+    <% classes.forEach(classItem => { %>
+        <% const date = new Date(classItem.timeslot); %>
+        <% const dayOfWeek = date.toLocaleDateString('en-US', { weekday: 'long' }); %>
+        <% const dayOfMonth = date.getDate(); %>
+        <% const month = date.toLocaleDateString('en-US', { month: 'short' }); %>
+        <% const formattedDay = `${dayOfWeek}`; %>
+        <% const formattedDate = `${dayOfMonth} ${month}`; %>
+        <% const formattedTime = date.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }); %>
+        <% if (!classesByDay[formattedDay]) { classesByDay[formattedDay] = []; } %>
+        <% classesByDay[formattedDay].push({ date: formattedDate, time: formattedTime, classItem }); %>
+    <% }); %>
+
+    <div class="class-schedule container text-center mt-5">
+        <% if (Object.keys(classesByDay).length === 0) { %>
+            <p>No classes scheduled yet.</p>
+        <% } else { %>
+    <% Object.entries(classesByDay).forEach(([formattedDay, classesOfDay]) => { %>
+        <h3 class="mt-3"><%= formattedDay %></h3>
+        <p><%= classesOfDay[0].date %></p> 
+        <hr>
+        <% classesOfDay.forEach(({ time, classItem, trainer_name }) => { %>
+                <div class="row mt-4 mx-auto" style="max-width: 50%;">
+                    <div class="col" style="padding: 0.5rem 0 0.5rem 0;">
+                    <h5><%= classItem.name %></h5>
+                    
+                    <b><%= time %></b>
+                    <span style="color: #5A5A5A;"> - Trainer: <%= classItem.trainer_name %></span>
+                    </div>
+                </div>
+        <% }); %>
+        <hr>
+    <% }); %>
+    <% } %>
+  </div>
+
+  <form id="logoutForm" action="/logout?_method=DELETE" method="POST" style="display: none;">
+    <button type="submit">Log Out</button>
+  </form>
+  <script>
+    function logout() {
+        document.getElementById('logoutForm').submit();
+    }
+  </script>
+  <script src="/public/js/bootstrap.min.js"></script>
+</body>
+
+</html>

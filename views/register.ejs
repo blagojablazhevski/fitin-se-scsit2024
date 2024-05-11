@@ -14,6 +14,7 @@
     <div class="container-fluid">
       <a class="navbar-brand" href="/">Home</a>
       <div class="d-flex">
+        <a href="#">Blog</a>
         <a href="/login">Log In</a>
       </div>
     </div>
@@ -40,25 +41,26 @@
           </div>
           <div class="mb-3">
             <label for="birthday" class="form-label small">Birthday</label>
-            <input type="date" id="email" name="birthday" class="form-control" placeholder=""
-              required />
+            <input type="date" id="email" name="birthday" class="form-control" placeholder="" required />
           </div>
-          <div class="col-md-5 mb-3">
-            <label for="height" class="form-label small">Height (cm)</label>
-            <input type="number" step="0.1" id="password" name="height" class="form-control" required />
-          </div>
-          <div class="col-md-5 mb-3">
-            <label for="weight" class="form-label small">Weight (kg)</label>
-            <input type="number" step="0.1" id="password" name="weight" class="form-control" required />
+          <div class="form-row">
+            <div class="form-group col-md-12 mb-3">
+              <label for="height" class="form-label small">Height (cm)</label>
+              <input type="number" step="0.1" id="password" name="height" class="form-control" required />
+            </div>
+            <div class="form-group col-md-12 mb-3">
+              <label for="weight" class="form-label small">Weight (kg)</label>
+              <input type="number" step="0.1" id="password" name="weight" class="form-control" required />
+            </div>
           </div>
           <% if (messages.error) { %>
             <div class="alert alert-danger small text-center" role="alert">
               <%= messages.error %>
             </div>
-          <% } %> 
-          <div class="d-grid gap-2">
-            <button type="submit" class="btn btn-primary">Fit In</button>
-          </div>
+            <% } %>
+              <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary">Fit In</button>
+              </div>
         </form>
       </div>
     </div>

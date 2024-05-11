@@ -92,7 +92,16 @@ label {
 }
 
 .homepage-banner {
+  background-size:cover;
+  background-repeat: no-repeat;
   background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), url(https://wallpapertag.com/wallpaper/full/d/3/0/124350-most-popular-gym-background-2716x1810-for-retina.jpg);
+  padding: 1rem;
+}
+
+.profile-banner {
+  background-size:cover;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(180deg, rgba(10, 10, 10, 0.678) 0%, rgba(10,10,10,1) 80%), url(https://cdn.sanity.io/images/uhnffrl6/production/7a9ca1304c77d7524c56444f43ef92ced9c4cfa5-6000x4000.jpg);
   padding: 1rem;
 }
 
@@ -119,4 +128,54 @@ label {
   border-color: #FF0000;
   color: #ccc;
   background-color: #290909;
+}
+
+.under-text{
+  margin: auto !important;
+  color: #72727B;
+  font-size: small;
+}
+
+.over-text{
+  margin: auto !important;
+  color: #fff;
+  font-weight: bold;
+  font-size: large;
+}
+
+.profile-banner .col {
+  background-color: #111111 !important;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  border-radius: 0.5rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.navbar a{
+  padding-left: 1rem;
+}
+
+.membership-info{
+  color: #72727B;
+}
+
+.class-schedule ul{
+  color: #ccc;
+  list-style-type: none;
+}
+
+.class-schedule .col{
+  color: #858585;
+  border-color: #cccccc20 !important;
+  border: 0.1rem solid;
+  border-radius: 0.5rem;
+}
+
+.class-schedule h5{
+  color:#0da;
+}
+
+.trainer-menu{
+  color: #72727B;
 }
