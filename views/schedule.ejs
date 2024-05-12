@@ -44,7 +44,7 @@
         <% classesByDay[formattedDay].push({ date: formattedDate, time: formattedTime, classItem }); %>
     <% }); %>
 
-    <div class="class-schedule container text-center mt-5">
+    <div class="class-schedule small container text-center mt-5">
     <% if (Object.keys(classesByDay).length === 0) { %>
       <p>No classes scheduled yet.</p>
     <% } else { %>
