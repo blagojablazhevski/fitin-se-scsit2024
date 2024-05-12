@@ -1,67 +1,70 @@
-if (process.env.NODE_ENV !== 'production'){
-    require('dotenv').config()
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
 }
 
-const express = require('express')
-const app = express()
-const path = require('path')
-const bcrypt = require('bcrypt')
-const sqlite3 = require('sqlite3')
-const passport = require('passport')
-const flash = require('express-flash')
-const session = require('express-session')
-const methodOverride = require('method-override')
+const express = require('express');
+const app = express();
+const path = require('path');
+const bcrypt = require('bcrypt');
+const sqlite3 = require('sqlite3');
+const passport = require('passport');
+const flash = require('express-flash');
+const session = require('express-session');
+const methodOverride = require('method-override');
 
-app.set('view-engine', 'ejs')
-app.use(express.static(path.join(__dirname, 'public')))
-app.use(express.urlencoded({extended: false}))
-app.use(flash())
+app.set('view-engine', 'ejs');
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.urlencoded({ extended: false }));
+app.use(flash());
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false
-}))
+}));
 
-app.use(passport.initialize())
-app.use(passport.session())
-app.use(methodOverride('_method'))
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(methodOverride('_method'));
 
-const initialize = require('./passport-cfg')
-const { Session } = require('inspector')
+const initialize = require('./passport-cfg');
+const { Session } = require('inspector');
 
 // Databaza za users
 
-const fitInDbPath = path.join(__dirname, 'db/fitin.db')
-const fitInDb = new sqlite3.Database(fitInDbPath)
+const fitInDbPath = path.join(__dirname, 'db/fitin.db');
+const fitInDb = new sqlite3.Database(fitInDbPath);
 initialize(
     passport,
     fitInDb
 );
 
-fitInDb.serialize(()=> {
-    fitInDb.run("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, email TEXT UNIQUE, password TEXT, birthday DATE, height INTEGER, weight REAL, trainings INTEGER)")
+fitInDb.serialize(() => {
+    fitInDb.run("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, email TEXT UNIQUE, password TEXT, birthday DATE, height INTEGER, weight REAL, trainings INTEGER)");
 
-    fitInDb.run("CREATE TABLE IF NOT EXISTS subscribed_users (membership_id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, FOREIGN KEY(user_id) REFERENCES users(id))")
+    fitInDb.run("CREATE TABLE IF NOT EXISTS subscribed_users (membership_id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, FOREIGN KEY(user_id) REFERENCES users(id))");
 
-    fitInDb.run("CREATE TABLE IF NOT EXISTS trainers (trainer_id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, FOREIGN KEY(user_id) REFERENCES users(id))")
+    fitInDb.run("CREATE TABLE IF NOT EXISTS trainers (trainer_id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, FOREIGN KEY(user_id) REFERENCES users(id))");
 
-    fitInDb.run("CREATE TABLE IF NOT EXISTS classes (class_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, timeslot DATETIME, trainer_id INTEGER, FOREIGN KEY(trainer_id) REFERENCES trainers(trainer_id))")
+    fitInDb.run("CREATE TABLE IF NOT EXISTS classes (class_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, timeslot DATETIME, trainer_id INTEGER, FOREIGN KEY(trainer_id) REFERENCES trainers(trainer_id))");
+
+    fitInDb.run("CREATE TABLE IF NOT EXISTS scheduled_users (schedule_id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, class_id INTEGER, FOREIGN KEY(user_id) REFERENCES users(id), FOREIGN KEY(class_id) REFERENCES classes(class_id))");
 })
 
 // Ruti
 
 app.get('/', (request, response) => {
-    response.render('index.ejs', {user: request.user})
+    response.render('index.ejs', { user: request.user });
 })
 
 app.get('/schedule', checkAuthenticated, async (request, response) => {
     try {
         const userId = request.user.id;
         const user = await new Promise((resolve, reject) => {
-            fitInDb.get("SELECT u.id, s.membership_id FROM users u LEFT JOIN subscribed_users s ON u.id = s.user_id WHERE u.id = ?", userId, (err, row) => {                if (err) {
+            fitInDb.get("SELECT u.id, s.membership_id FROM users u LEFT JOIN subscribed_users s ON u.id = s.user_id WHERE u.id = ?", userId, (err, row) => {
+                if (err) {
                     reject(err);
                 } else {
-                    console.log('Selected row: ', row)
+                    console.log('Selected row: ', row);
                     resolve(row);
                 }
             });
@@ -81,28 +84,29 @@ app.get('/schedule', checkAuthenticated, async (request, response) => {
             });
         });
 
-        response.render('schedule.ejs', { user: user, classes: classes});
+        response.render('schedule.ejs', { user: user, classes: classes });
     } catch (error) {
         console.error("Error fetching user:", error);
         response.status(500).send("Internal Server Error");
     }
 })
-app.get('/login', checkNotAuthenticated, (request, response) =>{
-    response.render('login.ejs')
+app.get('/login', checkNotAuthenticated, (request, response) => {
+    response.render('login.ejs');
 })
 
-app.get('/register', checkNotAuthenticated, (request, response) =>{
-    response.render('register.ejs')
+app.get('/register', checkNotAuthenticated, (request, response) => {
+    response.render('register.ejs');
 })
 
 app.get('/profile', checkAuthenticated, async (request, response) => {
     try {
         const userId = request.user.id;
         const user = await new Promise((resolve, reject) => {
-            fitInDb.get("SELECT u.id, u.name, u.email, u.birthday, u.height, u.weight, u.trainings, t.trainer_id, s.membership_id FROM users u LEFT JOIN trainers t ON u.id = t.user_id LEFT JOIN subscribed_users s ON u.id = s.user_id WHERE u.id = ?", userId, (err, row) => {                if (err) {
+            fitInDb.get("SELECT u.id, u.name, u.email, u.birthday, u.height, u.weight, u.trainings, t.trainer_id, s.membership_id FROM users u LEFT JOIN trainers t ON u.id = t.user_id LEFT JOIN subscribed_users s ON u.id = s.user_id WHERE u.id = ?", userId, (err, row) => {
+                if (err) {
                     reject(err);
                 } else {
-                    console.log('Selected row: ', row)
+                    //console.log('Selected row: ', row)
                     resolve(row);
                 }
             });
@@ -122,8 +126,8 @@ app.get('/profile', checkAuthenticated, async (request, response) => {
 
 // Post Metodi
 
-app.post('/register', checkNotAuthenticated, async (request, response) =>{
-    try{
+app.post('/register', checkNotAuthenticated, async (request, response) => {
+    try {
         const existingUser = await new Promise((resolve, reject) => {
             fitInDb.get("SELECT * FROM users WHERE email = ?", request.body.email, (err, row) => {
                 if (err) {
@@ -134,16 +138,16 @@ app.post('/register', checkNotAuthenticated, async (request, response) =>{
             });
         });
 
-        if(existingUser) {
+        if (existingUser) {
             return response.render('register.ejs', { messages: { error: 'Invalid Request: Email already in use.' } });
         }
 
-        const hashed_password = await bcrypt.hash(request.body.password, 10)
+        const hashed_password = await bcrypt.hash(request.body.password, 10);
 
         fitInDb.run("INSERT INTO users (name, email, password, birthday, height, weight, trainings) VALUES (?, ?, ?, ?, ?, ?, ?)",
             request.body.name, request.body.email, hashed_password, request.body.birthday, request.body.height, request.body.weight, 0,
-            function(err){
-                if (err){
+            function (err) {
+                if (err) {
                     console.error(err.message);
                     return response.render('register.ejs', { messages: { error: 'Failed to register. Please try again later.' } });
                 } else {
@@ -152,9 +156,9 @@ app.post('/register', checkNotAuthenticated, async (request, response) =>{
             }
         )
 
-    } catch(error){
-        console.log(error)
-        response.redirect('/register')
+    } catch (error) {
+        console.log(error);
+        response.redirect('/register');
     }
 })
 
@@ -163,7 +167,8 @@ app.post('/profile', checkAuthenticated, async (request, response) => {
         const userId = request.user.id;
 
         const user = await new Promise((resolve, reject) => {
-            fitInDb.get("SELECT u.id, u.name, u.email, u.birthday, u.height, u.weight, u.trainings, t.trainer_id, s.membership_id FROM users u LEFT JOIN trainers t ON u.id = t.user_id LEFT JOIN subscribed_users s ON u.id = s.user_id WHERE u.id = ?", userId, (err, row) => {                if (err) {
+            fitInDb.get("SELECT u.id, u.name, u.email, u.birthday, u.height, u.weight, u.trainings, t.trainer_id, s.membership_id FROM users u LEFT JOIN trainers t ON u.id = t.user_id LEFT JOIN subscribed_users s ON u.id = s.user_id WHERE u.id = ?", userId, (err, row) => {
+                if (err) {
                     reject(err);
                 } else {
                     console.log('Selected row: ', row)
@@ -190,8 +195,8 @@ app.post('/profile', checkAuthenticated, async (request, response) => {
             }
 
             fitInDb.run("INSERT INTO classes (name, timeslot, trainer_id) VALUES (?, ?, ?)",
-            request.body.name, request.body.datetime, userId,
-                function(err) {
+                request.body.name, request.body.datetime, userId,
+                function (err) {
                     if (err) {
                         console.error("Error inserting class:", err);
                         response.status(500).send("Internal Server Error");
@@ -215,6 +220,93 @@ app.post('/login', checkNotAuthenticated, passport.authenticate('local', {
     failureFlash: true
 }))
 
+app.post('/schedule/:classId', checkAuthenticated, async (request, response) => {
+    const userId = request.user.id;
+    const classId = request.params.classId;
+    const action = request.body.action;
+
+    try {
+        const classes = await new Promise((resolve, reject) => {
+            fitInDb.all("SELECT c.*, u.name AS trainer_name FROM classes c LEFT JOIN users u ON c.trainer_id = u.id ORDER BY timeslot ASC", (err, rows) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(rows);
+                }
+            });
+        });
+
+        if (action === "schedule") {
+            const existingScheduledUser = await new Promise((resolve, reject) => {
+                fitInDb.get("SELECT * FROM scheduled_users WHERE user_id = ? AND class_id = ?", [userId, classId], (err, row) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(row);
+                    }
+                });
+            });
+
+            if (existingScheduledUser) {
+                return response.render('schedule.ejs', { user: request.user, classes: classes, messages: { error: 'Invalid Request: You are already scheduled for that class.' } });
+            }
+
+            await new Promise((resolve, reject) => {
+                fitInDb.run("INSERT INTO scheduled_users (user_id, class_id) VALUES (?, ?)", [userId, classId], function (err) {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve();
+                    }
+                });
+                fitInDb.run("UPDATE users SET trainings = trainings + 1 WHERE id = ?", [userId], function (err) {
+                    if (err) {
+                        reject(err)
+                    } else {
+                        resolve
+                    }
+                });
+            });
+        } else if (action === "cancel") {
+            const existingScheduledUser = await new Promise((resolve, reject) => {
+                fitInDb.get("SELECT * FROM scheduled_users WHERE user_id = ? AND class_id = ?", [userId, classId], (err, row) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(row);
+                    }
+                });
+            });
+
+            if (!existingScheduledUser) {
+                return response.render('schedule.ejs', { user: request.user, classes: classes, messages: { error: 'Invalid Request: You are not signed up for that class.' } });
+            }
+
+            await new Promise((resolve, reject) => {
+                fitInDb.run("DELETE FROM scheduled_users WHERE user_id = ? AND class_id = ?", [userId, classId], function (err) {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve();
+                    }
+                });
+                fitInDb.run("UPDATE users SET trainings = trainings - 1 WHERE id = ?", [userId], function (err) {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve();
+                    }
+                });
+            });
+        }
+
+        response.redirect('/schedule');
+    } catch (error) {
+        console.error("Error handling schedule request:", error);
+        response.status(500).send("Internal Server Error");
+    }
+});
+
 app.delete('/logout', (request, response) => {
     request.logout((err) => {
         if (err) {
@@ -224,19 +316,19 @@ app.delete('/logout', (request, response) => {
     });
 })
 
-function checkAuthenticated(request, response, next){
-    if(request.isAuthenticated()){
-        return next()
+function checkAuthenticated(request, response, next) {
+    if (request.isAuthenticated()) {
+        return next();
     }
 
-    response.redirect('/login')
+    response.redirect('/login');
 }
 
-function checkNotAuthenticated(request, response, next){
-    if(request.isAuthenticated()){
-        return response.redirect('/')
+function checkNotAuthenticated(request, response, next) {
+    if (request.isAuthenticated()) {
+        return response.redirect('/');
     }
-    next()
+    next();
 }
 
 app.listen(3000)

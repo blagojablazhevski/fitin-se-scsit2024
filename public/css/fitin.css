@@ -179,3 +179,7 @@ label {
 .trainer-menu{
   color: #72727B;
 }
+
+.btn-danger{
+  background-color: #d9534f !important;
+}

@@ -14,7 +14,6 @@
     <div class="container-fluid">
       <a class="navbar-brand" href="/">Home</a>
       <div class="d-flex">
-        <a href="#">Blog</a>
         <% if (user) { %>
           <a href="/schedule">Schedule</a>
           <a href="/profile">Profile</a>
@@ -27,6 +26,11 @@
   </nav>
 
   <div class="class-schedule container text-center mt-5">
+    <% if (messages.error) { %>
+      <div class="alert alert-danger small text-center" role="alert">
+        <%= messages.error %>
+      </div>
+  <% } %>
     <% const classesByDay = {}; %>
     <% classes.forEach(classItem => { %>
         <% const date = new Date(classItem.timeslot); %>
@@ -41,25 +45,29 @@
     <% }); %>
 
     <div class="class-schedule container text-center mt-5">
-        <% if (Object.keys(classesByDay).length === 0) { %>
-            <p>No classes scheduled yet.</p>
-        <% } else { %>
-    <% Object.entries(classesByDay).forEach(([formattedDay, classesOfDay]) => { %>
+    <% if (Object.keys(classesByDay).length === 0) { %>
+      <p>No classes scheduled yet.</p>
+    <% } else { %>
+      <% Object.entries(classesByDay).forEach(([formattedDay, classesOfDay]) => { %>
         <h3 class="mt-3"><%= formattedDay %></h3>
         <p><%= classesOfDay[0].date %></p> 
         <hr>
         <% classesOfDay.forEach(({ time, classItem, trainer_name }) => { %>
-                <div class="row mt-4 mx-auto" style="max-width: 50%;">
-                    <div class="col" style="padding: 0.5rem 0 0.5rem 0;">
-                    <h5><%= classItem.name %></h5>
+          <div class="row mt-4 mx-auto" style="max-width: 80%;">
+            <div class="col" style="padding: 0.5rem 0 0.5rem 0;">
+              <h5><%= classItem.name %></h5>
                     
-                    <b><%= time %></b>
-                    <span style="color: #5A5A5A;"> - Trainer: <%= classItem.trainer_name %></span>
-                    </div>
-                </div>
+              <b><%= time %></b>
+              <span style="color: #5A5A5A;"> - Trainer: <%= classItem.trainer_name %></span>
+              <form action="/schedule/<%= classItem.class_id %>" method="POST">
+                <button type="submit" class="btn btn-primary mt-2 mb-2" name="action" value="schedule">Schedule</button>
+                <button type="submit" class="btn btn-danger mt-2 mb-2" name="action" value="cancel">Cancel</button>
+              </form>
+              </div>
+            </div>
         <% }); %>
         <hr>
-    <% }); %>
+      <% }); %>
     <% } %>
   </div>
 
